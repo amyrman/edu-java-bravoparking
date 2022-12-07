@@ -2,6 +2,7 @@ package com.example.parkingspot.controller;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,8 +24,8 @@ public class PersonControllerTest {
   @InjectMocks
   PersonController controller;
 
-  @Test
-  void getAllPersons_shouldReturnListOfPersons() {
+  @BeforeEach
+  void configurePersonService() {
     Person p1 = new Person();
     p1.setFirstName("Test");
     p1.setLastName("Testson");
@@ -34,7 +35,10 @@ public class PersonControllerTest {
     p2.setLastName("One");
     p2.setId(2);
     Mockito.when(service.getAllPersons()).thenReturn(List.of(p1, p2));
+  }
 
+  @Test
+  void getAllPersons_shouldReturnListOfPersons() {
     List<Person> result = controller.getAllPersons();
 
     assertThat(result).hasSize(2);
