@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,6 +20,9 @@ public class PersonControllerTest {
   @Mock
   PersonService service;
 
+  @InjectMocks
+  PersonController controller;
+
   @Test
   void getAllPersons_shouldReturnListOfPersons() {
     Person p1 = new Person();
@@ -31,9 +35,7 @@ public class PersonControllerTest {
     p2.setId(2);
     Mockito.when(service.getAllPersons()).thenReturn(List.of(p1, p2));
 
-    PersonController personController = new PersonController(service);
-
-    List<Person> result = personController.getAllPersons();
+    List<Person> result = controller.getAllPersons();
 
     assertThat(result).hasSize(2);
   }
