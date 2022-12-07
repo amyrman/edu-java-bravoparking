@@ -42,7 +42,8 @@ public class PersonControllerMVCTest {
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 1L))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.content().json("{\"firstName\":\"Test\", \"lastName\":\"Efternamn\"}"));
   }
 
 }
