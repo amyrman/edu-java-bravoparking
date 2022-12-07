@@ -32,7 +32,7 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointGetPerson_shouldReturnJsonAnd200OK() throws Exception {
+  void callingEndpointGetPerson_withValidId_shouldReturnJsonAnd200OK() throws Exception {
     Person person = new Person();
     person.setFirstName("Test");
     person.setLastName("Efternamn");
@@ -44,6 +44,12 @@ public class PersonControllerMVCTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.content().json("{\"firstName\":\"Test\", \"lastName\":\"Efternamn\"}"));
+  }
+
+  @Test
+  void callingEndpointGetPerson_withInvalidId_shouldReturn404NotFound() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 999L))
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
 }
