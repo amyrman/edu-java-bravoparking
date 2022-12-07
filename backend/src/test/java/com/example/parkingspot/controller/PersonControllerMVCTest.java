@@ -24,7 +24,8 @@ public class PersonControllerMVCTest {
   void callingEndpointGetPersons_shouldReturn200OK() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons"))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.content().json("[]"));
   }
 
 }
