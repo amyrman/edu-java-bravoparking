@@ -1,7 +1,5 @@
 package com.example.parkingspot.controller;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -15,7 +13,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.parkingspot.entity.Person;
-import com.example.parkingspot.repository.PersonRepository;
 import com.example.parkingspot.service.PersonService;
 
 @WebMvcTest(PersonController.class)
@@ -40,7 +37,7 @@ public class PersonControllerMVCTest {
 
     var person = mockOnePerson();
 
-    when(personService.getPersonById(1L)).thenReturn(person);
+    Mockito.when(personService.getPersonById(1L)).thenReturn(person);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 1L))
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -62,7 +59,7 @@ public class PersonControllerMVCTest {
 
     Person expectedPerson = mockOnePerson();
 
-    when(personService.registerNewPerson(ArgumentMatchers.any())).thenReturn(expectedPerson);
+    Mockito.when(personService.registerNewPerson(ArgumentMatchers.any())).thenReturn(expectedPerson);
 
     RequestBuilder request = MockMvcRequestBuilders.post("/api/persons").accept(MediaType.APPLICATION_JSON)
         .content("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\"}")
