@@ -1,26 +1,11 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.page{
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
 
 .container {
-    background-color: white;
+    background-color: rgba(192, 193, 196, 0.842);
     height: 30em;
     width: 30em;
     position: relative;
     border-radius:1em;
-    box-shadow: 0 0.188em 1.550em rgb(203, 203, 203);
+    box-shadow: 0 0.188em 1.550em rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,9 +13,13 @@
 
 }
 
+.login-h1{
+    font-size: 25px;
+}
+
 input {
     border: none;
-    background-color: rgb(229, 228, 228);
+    background-color: rgb(235, 235, 235);
     height: 4em;
     width: 80%;
     border-radius: 0.25em;
@@ -39,19 +28,24 @@ input {
 }
 
 input:focus{
-    outline-color:rgb(203, 203, 203);
+    outline-color: rgb(102, 31, 26);
+}
+
+input::placeholder{
+    font-size: 1.5em;
 }
 
 .login-btn {
     width: 40%;
     height: 3em;
-    background-color: rgb(203, 203, 203);
+    background-color:  rgb(102, 31, 26);
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.5s;
     border-radius: 0.25em;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .login-btn:hover {transform: scale(1.25);}
@@ -84,7 +78,7 @@ input:focus{
     align-items: center;
     justify-content: center;
     border-radius: 0.25em;
-    background-color: black;
+    background-color:  rgb(102, 31, 26);
     color: white;
     bottom: 0;
     transform: scale(1);
