@@ -55,7 +55,7 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointPostPersons_shouldReturn201Created() throws Exception {
+  void callingEndpointPostPersons_shouldReturn201CreatedAndJsonData() throws Exception {
     Person person = new Person();
     person.setFirstName("Test");
     person.setLastName("Efternamn");
@@ -65,12 +65,15 @@ public class PersonControllerMVCTest {
     when(personService.registerNewPerson(ArgumentMatchers.any())).thenReturn(expectedPerson);
 
     RequestBuilder request = MockMvcRequestBuilders.post("/api/persons").accept(MediaType.APPLICATION_JSON)
-        .content("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":\"1\"}")
+        .content("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\"}")
         .contentType(MediaType.APPLICATION_JSON);
 
     mockMvc
         .perform(request)
-        .andExpect(MockMvcResultMatchers.status().isCreated());
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(
+            MockMvcResultMatchers.content().json("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":1}"));
   }
 
   private Person mockOnePerson() {
