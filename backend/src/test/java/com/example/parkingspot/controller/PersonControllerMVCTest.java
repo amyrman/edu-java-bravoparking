@@ -3,22 +3,26 @@ package com.example.parkingspot.controller;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.parkingspot.entity.Person;
+import com.example.parkingspot.repository.PersonRepository;
 import com.example.parkingspot.service.PersonService;
 
 @WebMvcTest(PersonController.class)
 public class PersonControllerMVCTest {
 
   @MockBean
-  private PersonService service;
+  private PersonService personService;
 
   @Autowired
   private MockMvc mockMvc;
@@ -32,13 +36,11 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointGetPerson_withValidId_shouldReturnJsonAnd200OK() throws Exception {
-    Person person = new Person();
-    person.setFirstName("Test");
-    person.setLastName("Efternamn");
-    person.setId(1);
+  void callingEndpointGetPersons_withValidId_shouldReturnJsonAnd200OK() throws Exception {
 
-    when(service.getPersonById(1L)).thenReturn(person);
+    var person = mockOnePerson();
+
+    when(personService.getPersonById(1L)).thenReturn(person);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 1L))
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -47,9 +49,37 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointGetPerson_withInvalidId_shouldReturn404NotFound() throws Exception {
+  void callingEndpointGetPersons_withInvalidId_shouldReturn404NotFound() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 999L))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  void callingEndpointPostPersons_shouldReturn201Created() throws Exception {
+    Person person = new Person();
+    person.setFirstName("Test");
+    person.setLastName("Efternamn");
+
+    Person expectedPerson = mockOnePerson();
+
+    when(personService.registerNewPerson(ArgumentMatchers.any())).thenReturn(expectedPerson);
+
+    RequestBuilder request = MockMvcRequestBuilders.post("/api/persons").accept(MediaType.APPLICATION_JSON)
+        .content("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":\"1\"}")
+        .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc
+        .perform(request)
+        .andExpect(MockMvcResultMatchers.status().isCreated());
+  }
+
+  private Person mockOnePerson() {
+    Person person = new Person();
+    person.setFirstName("Test");
+    person.setLastName("Efternamn");
+    person.setId(1);
+
+    return person;
   }
 
 }
