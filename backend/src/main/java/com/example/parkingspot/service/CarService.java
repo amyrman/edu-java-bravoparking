@@ -23,13 +23,17 @@ public class CarService {
   }
 
   public Car addNewCar(Car car) {
-    Person owner = personService.getPersonById(car.getPerson().getId());
+    Person owner = personService.getPersonById(car.getPerson().getUserId());
     car.setPerson(owner);
     return carRepository.save(car);
   }
 
   public List<Car> fetchCarsByOwnerId(Long personId) {
     return carRepository.getAllCarsByPersonId(personId);
+  }
+
+  public List<Car> fetchCarsByUserId(String userId) {
+    return carRepository.getAllCarsByUserId(userId);
   }
 
   public Car getOneCarByPersonId(Long personId) {
@@ -49,9 +53,9 @@ public class CarService {
   }
 
   @Transactional
-  public Car updateCarOwner(Long carId, Long newOwnerId) {
+  public Car updateCarOwner(Long carId, String newOwnerUserId) {
     Optional<Car> carOptional = carRepository.findById(carId);
-    Person newOwner = personService.getPersonById(newOwnerId);
+    Person newOwner = personService.getPersonById(newOwnerUserId);
     if (carOptional.isPresent() && newOwner != null) {
       Car foundCar = carOptional.get();
       foundCar.setPerson(newOwner);

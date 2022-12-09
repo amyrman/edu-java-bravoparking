@@ -15,6 +15,7 @@ public class Person {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  private String userId;
   private String firstName;
   private String lastName;
   @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
@@ -51,6 +52,14 @@ public class Person {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
 }
