@@ -95,14 +95,26 @@ public class PersonControllerMVCTest {
 
     List<Car> cars = List.of(car);
 
-    Mockito.when(carService.fetchCarsByUserId(ArgumentMatchers.any())).thenReturn(cars);
+    Mockito.when(carService.fetchCarsByUserId("410459b5-8c67-4d5f-a653-625726722ec3")).thenReturn(cars);
 
     RequestBuilder request = MockMvcRequestBuilders
-        .get("/api/persons/{id}/cars", "410459b5-8c67-4d5f-a653-625726722ec3").accept(MediaType.APPLICATION_JSON)
+        .get("/api/persons/{id}/cars", "1").accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON);
 
     mockMvc.perform(request)
         .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  void callingEndpointGetCarsByOwner_withInvalidIdShouldReturn404NotFound() throws Exception {
+
+    Mockito.when(carService.fetchCarsByUserId("wrongUserId")).thenReturn(null);
+
+    RequestBuilder request = MockMvcRequestBuilders
+        .get("/api/persons/{id}/cars", "wrongUserId");
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}/cars", "wrongUserId"))
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   private Person mockOnePerson() {
