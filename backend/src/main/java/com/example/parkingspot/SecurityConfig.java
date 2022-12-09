@@ -24,9 +24,19 @@ public class SecurityConfig {
               .sessionManagement().disable()
               .httpBasic().disable()
               .authorizeHttpRequests()
-                // TODO: /persons still returns 403? 
-                .requestMatchers(HttpMethod.GET, "/persons").hasAuthority("SCOPE_read:persons")
-                .requestMatchers(HttpMethod.GET, "/persons/**").permitAll()
+                .requestMatchers(HttpMethod.GET,
+                  "/api/persons/**",
+                  "/api/cars/**",
+                  "/api/zones/**",
+                  "/api/events/**").authenticated()
+                .requestMatchers(HttpMethod.POST,
+                  "/api/persons/**",
+                  "/api/cars/**",
+                  "/api/zones/**",
+                  "/api/events/**").authenticated()
+                .requestMatchers(HttpMethod.PUT,
+                  "/api/cars/**",
+                  "/api/events/**").authenticated()
                 .anyRequest().denyAll()
               .and()
               .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
