@@ -2,6 +2,7 @@ package com.example.parkingspot.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,9 @@ public class PersonService {
     this.personRepository = personRepository;
   }
 
-  public Person getPersonById(Long personId) {
-    Optional<Person> personOptional = personRepository.findById(personId);
+  public Person getPersonById(String userId) {
+    // Optional<Person> personOptional = personRepository.findById(userId);
+    Optional<Person> personOptional = personRepository.findByUserId(userId);
     if (personOptional.isPresent()) {
       return personOptional.get();
     }
@@ -34,6 +36,8 @@ public class PersonService {
     if (existingPerson.isPresent()) {
       return person;
     }
+
+    person.setUserId(UUID.randomUUID().toString());
 
     Person newPerson = personRepository.save(person);
     if (newPerson.getId() > 0) {

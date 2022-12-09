@@ -12,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.parkingspot.entity.Car;
 import com.example.parkingspot.entity.Person;
+import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
 
 @RestController
 @RequestMapping("/api")
 public class PersonController {
   private final PersonService personService;
+  private final CarService carService;
 
-  public PersonController(PersonService personService) {
+  public PersonController(PersonService personService, CarService carService) {
     this.personService = personService;
+    this.carService = carService;
   }
 
   @GetMapping("/persons")
@@ -30,8 +34,8 @@ public class PersonController {
   }
 
   @GetMapping("/persons/{id}")
-  public ResponseEntity<Person> getPerson(@PathVariable(name = "id") Long personId) {
-    Person foundPerson = personService.getPersonById(personId);
+  public ResponseEntity<Person> getPerson(@PathVariable(name = "id") String userId) {
+    Person foundPerson = personService.getPersonById(userId);
     if (foundPerson != null) {
       return ResponseEntity.ok().body(foundPerson);
     }
@@ -50,6 +54,16 @@ public class PersonController {
     }
 
     return ResponseEntity.internalServerError().build();
+  }
+
+  @GetMapping("/persons/{id}/cars")
+  public ResponseEntity<List<Car>> getCarsByOwner(@PathVariable("id") String userId) {
+    List<Car> cars = carService.fetchCarsByUserId(userId);
+    if (cars != null) {
+      return ResponseEntity.ok().body(cars);
+    }
+    return ResponseEntity.notFound().build();
+
   }
 
 }
