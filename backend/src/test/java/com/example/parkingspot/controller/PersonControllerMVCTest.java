@@ -113,7 +113,7 @@ public class PersonControllerMVCTest {
     RequestBuilder request = MockMvcRequestBuilders
         .get("/api/persons/{id}/cars", "wrongUserId");
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}/cars", "wrongUserId"))
+    mockMvc.perform(request)
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
