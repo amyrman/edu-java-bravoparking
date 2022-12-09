@@ -1,5 +1,7 @@
 package com.example.parkingspot.controller;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.example.parkingspot.entity.Car;
 import com.example.parkingspot.entity.Person;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
@@ -79,6 +82,27 @@ public class PersonControllerMVCTest {
         .andExpect(
             MockMvcResultMatchers.content().json(
                 "{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":1, \"userId\":\"410459b5-8c67-4d5f-a653-625726722ec3\"}"));
+  }
+
+  @Test
+  void callingEndpointGetCarsByOwner_withValidIdShouldReturn200Ok() throws Exception {
+
+    Person person = mockOnePerson();
+    Car car = new Car();
+    car.setRegistration("ABC123");
+    car.setPerson(person);
+    car.setId(1L);
+
+    List<Car> cars = List.of(car);
+
+    Mockito.when(carService.fetchCarsByUserId(ArgumentMatchers.any())).thenReturn(cars);
+
+    RequestBuilder request = MockMvcRequestBuilders
+        .get("/api/persons/{id}/cars", "410459b5-8c67-4d5f-a653-625726722ec3").accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   private Person mockOnePerson() {
