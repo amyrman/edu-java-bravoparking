@@ -23,7 +23,7 @@ public class CarService {
   }
 
   public Car addNewCar(Car car) {
-    Person owner = personService.getPersonById(car.getPerson().getId());
+    Person owner = personService.getPersonById(car.getPerson().getUserId());
     car.setPerson(owner);
     return carRepository.save(car);
   }
