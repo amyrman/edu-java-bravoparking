@@ -16,8 +16,9 @@ public class PersonService {
     this.personRepository = personRepository;
   }
 
-  public Person getPersonById(Long personId) {
-    Optional<Person> personOptional = personRepository.findById(personId);
+  public Person getPersonById(String userId) {
+    // Optional<Person> personOptional = personRepository.findById(userId);
+    Optional<Person> personOptional = personRepository.findByUserId(userId);
     if (personOptional.isPresent()) {
       return personOptional.get();
     }
