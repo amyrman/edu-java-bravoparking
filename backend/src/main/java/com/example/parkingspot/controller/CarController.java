@@ -2,6 +2,7 @@ package com.example.parkingspot.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +38,11 @@ public class CarController {
   }
 
   @GetMapping("/cars/{id}")
-  public ResponseEntity<List<Car>> getCarsByOwner(@PathVariable("id") Long personId) {
+  public ResponseEntity<Car> getCarById(@PathVariable("id") Long carId) {
     // List<Long> carpersonId = Arrays.asList(personId);
-    List<Car> cars = carService.fetchCarsByOwnerId(personId);
-    if (cars != null) {
-      return ResponseEntity.ok().body(cars);
+    Optional<Car> carOptional = carService.findCarById(carId);
+    if (carOptional.isPresent()) {
+      return ResponseEntity.ok().body(carOptional.get());
     }
     return ResponseEntity.notFound().build();
 
@@ -63,8 +64,8 @@ public class CarController {
 
   @PutMapping("/cars/{id}")
   public ResponseEntity<Car> changeOwner(@PathVariable("id") Long carId,
-      @RequestParam(required = true) Long newOwnerId) {
-    Car foundCar = carService.updateCarOwner(carId, newOwnerId);
+      @RequestParam(required = true) String newOwnerUserId) {
+    Car foundCar = carService.updateCarOwner(carId, newOwnerUserId);
     if (foundCar != null) {
       return ResponseEntity.ok().body(foundCar);
     }

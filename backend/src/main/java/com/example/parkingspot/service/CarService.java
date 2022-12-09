@@ -53,9 +53,9 @@ public class CarService {
   }
 
   @Transactional
-  public Car updateCarOwner(Long carId, Long newOwnerId) {
+  public Car updateCarOwner(Long carId, String newOwnerUserId) {
     Optional<Car> carOptional = carRepository.findById(carId);
-    Person newOwner = personService.getPersonById(newOwnerId);
+    Person newOwner = personService.getPersonById(newOwnerUserId);
     if (carOptional.isPresent() && newOwner != null) {
       Car foundCar = carOptional.get();
       foundCar.setPerson(newOwner);
