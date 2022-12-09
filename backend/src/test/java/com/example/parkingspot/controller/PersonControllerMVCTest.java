@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.parkingspot.entity.Person;
+import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
 
 @WebMvcTest(PersonController.class)
@@ -23,6 +24,8 @@ public class PersonControllerMVCTest {
 
   @MockBean
   private PersonService personService;
+  @MockBean
+  private CarService carService;
 
   @Autowired
   private MockMvc mockMvc;
@@ -40,9 +43,9 @@ public class PersonControllerMVCTest {
 
     var person = mockOnePerson();
 
-    Mockito.when(personService.getPersonById(1L)).thenReturn(person);
+    Mockito.when(personService.getPersonById("410459b5-8c67-4d5f-a653-625726722ec3")).thenReturn(person);
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 1L))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", "410459b5-8c67-4d5f-a653-625726722ec3"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.content().json("{\"firstName\":\"Test\", \"lastName\":\"Efternamn\"}"));
@@ -59,6 +62,7 @@ public class PersonControllerMVCTest {
     Person person = new Person();
     person.setFirstName("Test");
     person.setLastName("Efternamn");
+    person.setUserId("410459b5-8c67-4d5f-a653-625726722ec3");
 
     Person expectedPerson = mockOnePerson();
 
@@ -73,7 +77,8 @@ public class PersonControllerMVCTest {
         .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(
-            MockMvcResultMatchers.content().json("{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":1}"));
+            MockMvcResultMatchers.content().json(
+                "{\"firstName\":\"Test\",\"lastName\":\"Efternamn\", \"id\":1, \"userId\":\"410459b5-8c67-4d5f-a653-625726722ec3\"}"));
   }
 
   private Person mockOnePerson() {
@@ -81,6 +86,7 @@ public class PersonControllerMVCTest {
     person.setFirstName("Test");
     person.setLastName("Efternamn");
     person.setId(1);
+    person.setUserId("410459b5-8c67-4d5f-a653-625726722ec3");
 
     return person;
   }
