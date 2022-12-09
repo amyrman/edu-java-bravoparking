@@ -2,6 +2,7 @@ package com.example.parkingspot.controller;
 
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -34,6 +35,7 @@ public class PersonControllerMVCTest {
   private MockMvc mockMvc;
 
   @Test
+  @DisplayName("Endpoint getPersons - should return 200 OK and Person array in JSON")
   void callingEndpointGetPersons_shouldReturnJsonAnd200OK() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons"))
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -42,6 +44,7 @@ public class PersonControllerMVCTest {
   }
 
   @Test
+  @DisplayName("Endpoint getPersons/{id} - with valid id should return 200 OK and Person JSON")
   void callingEndpointGetPersons_withValidId_shouldReturnJsonAnd200OK() throws Exception {
 
     var person = mockOnePerson();
@@ -55,12 +58,14 @@ public class PersonControllerMVCTest {
   }
 
   @Test
+  @DisplayName("Endpoint getPersons/{id} - with invalid id should return 404 Not Found")
   void callingEndpointGetPersons_withInvalidId_shouldReturn404NotFound() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons/{id}", 999L))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   @Test
+  @DisplayName("Endpoint addNewPerson - should return 201 Created and created Person JSON")
   void callingEndpointPostPersons_shouldReturn201CreatedAndJsonData() throws Exception {
     Person person = new Person();
     person.setFirstName("Test");
@@ -85,7 +90,8 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointGetCarsByOwner_withValidIdShouldReturn200Ok() throws Exception {
+  @DisplayName("Endpoint getCarsByOwner - with valid userId should return 200 OK")
+  void callingEndpointGetCarsByOwner_withValidId_ShouldReturn200Ok() throws Exception {
 
     Person person = mockOnePerson();
     Car car = new Car();
@@ -106,7 +112,8 @@ public class PersonControllerMVCTest {
   }
 
   @Test
-  void callingEndpointGetCarsByOwner_withInvalidIdShouldReturn404NotFound() throws Exception {
+  @DisplayName("Endpoint getCarsByOwner - with invalid userId should return 404 Not Found")
+  void callingEndpointGetCarsByOwner_withInvalidId_ShouldReturn404NotFound() throws Exception {
 
     Mockito.when(carService.fetchCarsByUserId("wrongUserId")).thenReturn(null);
 
