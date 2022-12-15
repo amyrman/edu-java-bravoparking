@@ -11,7 +11,3 @@ public class ParkingspotApplication {
 	}
 
 }
-// TODO
-// Refactor querys in carRepo class?
-
-// Batch update active status?

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.example.parkingspot.entity.Person;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class PersonController {
