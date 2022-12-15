@@ -24,9 +24,9 @@ function App() {
         .then((response) => {
           //get token from response
           const token = response.data.access_token;
+          //get token duration
           const token_exp = response.data.expires_in;
           const expires = Date.now() + token_exp * 1000;
-          console.log(Date.now() < expires);
 
           //set JWT token to local
           localStorage.setItem('token', token);
