@@ -1,8 +1,10 @@
-import logo from './logo.svg';
+import LoginForm from './components/loginform';
+import Header from './components/header';
 import axios from 'axios';
 import { setAuthToken } from './setAuthToken';
 import { checkJwtExpired } from './checkJwtExpired';
-import './App.css';
+
+import './css/main.css';
 
 function App() {
   //check jwt token
@@ -79,15 +81,12 @@ function App() {
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button onClick={handleSubmit}>LOGIN</button>
-        <button onClick={handleGetAllPersons}>GET PERSONS</button>
-        <button onClick={checkJwtExpired}>VALID?!</button>
-      </header>
+      <Header />
+      <LoginForm />
+
+      <button onClick={handleSubmit}>LOGIN</button>
+      <button onClick={handleGetAllPersons}>GET PERSONS</button>
+      <button onClick={checkJwtExpired}>VALID?!</button>
     </div>
   );
 }
