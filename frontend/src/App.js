@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import axios from 'axios';
 import { setAuthToken } from './setAuthToken';
+import { checkJwtExpired } from './checkJwtExpired';
 import './App.css';
 
 function App() {
@@ -23,9 +24,15 @@ function App() {
         .then((response) => {
           //get token from response
           const token = response.data.access_token;
+          const token_exp = response.data.expires_in;
+          const expires = Date.now() + token_exp * 1000;
+          console.log(Date.now() < expires);
 
           //set JWT token to local
           localStorage.setItem('token', token);
+
+          //set token duration to local
+          localStorage.setItem('token_duration', expires);
 
           //set token to axios common header
           setAuthToken(token);
@@ -79,6 +86,7 @@ function App() {
         </p>
         <button onClick={handleSubmit}>LOGIN</button>
         <button onClick={handleGetAllPersons}>GET PERSONS</button>
+        <button onClick={checkJwtExpired}>VALID?!</button>
       </header>
     </div>
   );
