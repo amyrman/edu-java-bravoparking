@@ -73,6 +73,7 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v18.12.1</nodeVersion>
+                    <npmVersion>8.10.0</npmVersion>
                 </configuration>
             </plugin>
 		</plugins>
