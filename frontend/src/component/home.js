@@ -1,7 +1,11 @@
 import React from 'react';
 
 function Home() {
-  return <h1>Welcome to the world of Geeks!</h1>;
+  return (
+    <div>
+      <h2>THIS IS THE PROFILE/PERSON PAGE</h2>
+    </div>
+  );
 }
 
 export default Home;
