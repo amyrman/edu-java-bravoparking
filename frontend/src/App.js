@@ -22,7 +22,7 @@ function App() {
     } else {
       setLoggedIn(false);
     }
-  });
+  }, []);
 
   const render = () => {
     return loggedIn ? (
