@@ -13,11 +13,6 @@ const LoginForm = () => {
   const [popupStyle, showPopup] = useState('hide');
   const [values, setValues] = useState(initialValues);
 
-  const popup = () => {
-    showPopup('login-popup');
-    setTimeout(() => showPopup('hide'), 3000);
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -28,7 +23,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //reqres registered sample user
+    //login information
     const loginPayload = {
       username: values.username,
       password: values.password,
