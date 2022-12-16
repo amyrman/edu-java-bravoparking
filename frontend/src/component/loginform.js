@@ -49,7 +49,7 @@ const LoginForm = () => {
           setAuthToken(token);
 
           //redirect user to home page
-          // window.location.href = '/';
+          window.location.href = '/';
 
           return response;
         })

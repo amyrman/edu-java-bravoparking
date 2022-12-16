@@ -1,19 +1,31 @@
-import React, { Component } from 'react';
-import { setAuthToken } from './setAuthToken';
+import React, { Component, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Login from './component/login';
 import Home from './component/home';
 import Cars from './component/cars';
 import Events from './component/events';
+import { checkJwtExpired } from './checkJwtExpired';
+import { logoutUser } from './logoutUser';
 
-//check jwt token
-const token = localStorage.getItem('token');
-if (token) {
-  setAuthToken(token);
-}
+function App() {
+  const [loggedIn, setLoggedIn] = useState();
 
-class App extends Component {
-  render() {
-    return (
+  const logout = () => {
+    setLoggedIn(false);
+    logoutUser();
+  };
+
+  useEffect(() => {
+    checkJwtExpired();
+    if (localStorage.getItem('token')) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
+  const render = () => {
+    return loggedIn ? (
       <Router>
         <div className='App'>
           <ul className='App-header'>
@@ -26,6 +38,9 @@ class App extends Component {
             <li>
               <Link to='/cars'>Cars</Link>
             </li>
+            <li>
+              <button onClick={logout}>LogOut</button>
+            </li>
           </ul>
           <Routes>
             <Route exact path='/' element={<Home />}></Route>
@@ -34,8 +49,12 @@ class App extends Component {
           </Routes>
         </div>
       </Router>
+    ) : (
+      <Login />
     );
-  }
+  };
+
+  return render();
 }
 
 export default App;
