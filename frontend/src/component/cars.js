@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { setAuthToken } from '../setAuthToken';
+import { checkJwtExpired } from '../checkJwtExpired';
 
 function Cars() {
   const [cars, setCars] = useState();
@@ -9,17 +10,12 @@ function Cars() {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
+    checkJwtExpired();
     setAuthToken(token);
 
-    console.log(axios.defaults.headers.common);
-
     axios
-      // .get(`http://localhost:8080/api/persons/${userId}/cars`)
-      .get(
-        `http://localhost:8080/api/persons/a1eb8cf5-0ff7-42d2-b912-6f0a31cecf2a/cars`
-      )
+      .get(`http://localhost:8080/api/persons/${userId}/cars`)
       .then((response) => {
-        console.log(response.data);
         setCars(response.data);
       })
       .catch((err) => {
