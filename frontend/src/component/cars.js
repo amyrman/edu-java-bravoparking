@@ -6,9 +6,6 @@ import { checkJwtExpired } from '../checkJwtExpired';
 import '../css/cars.css';
 
 function Cars() {
-  const initialValues = {
-    registration: '',
-  };
   const [cars, setCars] = useState();
   const [registration, setRegistration] = useState('');
   const userId = localStorage.getItem('userId');
@@ -39,10 +36,7 @@ function Cars() {
     setAuthToken(token);
 
     axios
-      .get(
-        `http://localhost:8080/api/persons/b1fcb6f5-a2ec-4c16-9c09-697233bacbab/cars`
-      )
-      // .get(`http://localhost:8080/api/persons/${userId}/cars`)
+      .get(`http://localhost:8080/api/persons/${userId}/cars`)
       .then((response) => {
         setCars(response.data);
       })
