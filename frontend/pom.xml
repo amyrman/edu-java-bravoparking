@@ -63,12 +63,12 @@
                     <execution>
                         <id>npm run build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>CI=false npm run build</goal>
                         </goals>
                         <phase>generate-resources</phase>
-                        <configuration>
-                            <arguments>CI=false npm run build</arguments>
-                        </configuration>
+                        <!-- <configuration>
+                            <arguments></arguments>
+                        </configuration> -->
                     </execution>
                 </executions>
                 <configuration>
