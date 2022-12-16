@@ -5,5 +5,7 @@ export const checkJwtExpired = () => {
   if (Date.now() > token_duration) {
     console.log('TOKEN EXPIRED!');
     logoutUser();
+  } else {
+    console.log('Keep on scrollin!');
   }
 };
