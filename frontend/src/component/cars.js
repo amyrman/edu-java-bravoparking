@@ -16,10 +16,7 @@ function Cars() {
     setAuthToken(token);
 
     axios
-      // .get(`http://localhost:8080/api/persons/${userId}/cars`)
-      .get(
-        `http://localhost:8080/api/persons/a1eb8cf5-0ff7-42d2-b912-6f0a31cecf2a/cars`
-      )
+      .get(`http://localhost:8080/api/persons/${userId}/cars`)
       .then((response) => {
         setCars(response.data);
       })

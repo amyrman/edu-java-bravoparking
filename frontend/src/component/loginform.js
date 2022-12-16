@@ -60,11 +60,13 @@ const LoginForm = () => {
         axios
           .get(`http://localhost:8080/api/login/${loginPayload.username}`)
           .then((response) => {
-            // get userId from response
+            // get userId and personId from response
             const userId = response.data.userId;
+            const personId = response.data.id;
 
-            // set userId to local
+            // set userId and personId to local
             localStorage.setItem('userId', userId);
+            localStorage.setItem('personId', personId);
           })
           .catch((err) => {
             console.log(err);
