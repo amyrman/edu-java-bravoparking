@@ -12,6 +12,7 @@ function Cars() {
 
   const handleAddCar = (event) => {
     event.preventDefault();
+    setCars([...cars, { registration: registration }]);
 
     axios({
       method: 'post',
@@ -23,6 +24,7 @@ function Cars() {
         },
       },
     });
+    setRegistration('');
   };
 
   const handleInputChange = (e) => {
@@ -45,6 +47,20 @@ function Cars() {
       });
   };
 
+  const renderCarsList = () => {
+    return cars ? (
+      <ul>
+        {cars.map((car) => (
+          <li key={car.registration} className='cars_list_item'>
+            {car.registration}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div></div>
+    );
+  };
+
   useEffect(() => {
     handleGetCars();
   }, []);
@@ -52,17 +68,7 @@ function Cars() {
   return (
     <div>
       <h1>CARS PAGE</h1>
-      {cars ? (
-        <ul>
-          {cars.map((car) => (
-            <li key={car.id} className='cars_list_item'>
-              {car.registration}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div></div>
-      )}
+      {renderCarsList()}
 
       <form onSubmit={handleAddCar}>
         <input
