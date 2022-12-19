@@ -76,6 +76,7 @@ function Cars() {
           name='registration'
           placeholder='Car registration'
           onChange={handleInputChange}
+          value={registration}
         />
         <input type='submit' value='ADD CAR' />
       </form>
