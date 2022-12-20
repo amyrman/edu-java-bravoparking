@@ -1,6 +1,7 @@
 package com.example.parkingspot.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.util.Lists;
 import org.geolatte.geom.G2D;
@@ -66,6 +67,32 @@ public class ZoneControllerMvcTest {
         .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.content().json("{\"id\":1, \"name\":\"Mocked zone\"}"));
+  }
+
+  @Test
+  @DisplayName("Endpoint getZoneById - with valid id should return 200 OK and Zone data as JSON")
+  void getZoneById_withValidId_shouldReturn200OkAndJson() throws Exception {
+    Zone dbZone = mockOneZone();
+    Optional<Zone> dbOptionalZone = Optional.of(dbZone);
+
+    Mockito.when(zoneService.findZoneById(ArgumentMatchers.any())).thenReturn(dbOptionalZone);
+    RequestBuilder request = MockMvcRequestBuilders.get("/api/zones/{id}", 1L);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.content().json("{\"id\":1, \"name\":\"Mocked zone\"}"));
+  }
+
+  @Test
+  @DisplayName("Endpoint getZoneById - with invalid id should return 404 Not Found")
+  void getZoneById_withInvalidId_shouldReturn404NotFound() throws Exception {
+
+    Mockito.when(zoneService.findZoneById(2l)).thenReturn(Optional.empty());
+    RequestBuilder request = MockMvcRequestBuilders.get("/api/zones/{id}", 2L);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   List<Zone> zonesSetup() {
