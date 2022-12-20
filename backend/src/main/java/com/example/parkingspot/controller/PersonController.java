@@ -18,7 +18,6 @@ import com.example.parkingspot.entity.Person;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class PersonController {
