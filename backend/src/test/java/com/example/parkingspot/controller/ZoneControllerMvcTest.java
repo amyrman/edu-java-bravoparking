@@ -27,7 +27,6 @@ public class ZoneControllerMvcTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Test
   @DisplayName("Endpoint getZones - should return a list of zones")
   void callingGetZones_shoudlReturnJsonDataOfZones() throws Exception {
 
