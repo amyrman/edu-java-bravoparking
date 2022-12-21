@@ -13,6 +13,8 @@ import com.example.parkingspot.repository.ZoneRepository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class ZoneServiceTest {
   @Mock
@@ -36,6 +38,36 @@ public class ZoneServiceTest {
     assertThat(result).hasFieldOrProperty("Events");
     assertThat(result).hasFieldOrProperty("Coordinate");
     assertThat(result).isInstanceOf(Zone.class);
+
+  }
+
+  @Test
+  @DisplayName("Calling findZoneById - with valid id should return a Zone")
+  void callingFindZoneById_withValidData_shouldReturnZone() {
+    var dbZone = stubOneZone();
+    long zoneId = 1l;
+    Mockito.when(zoneRepository.findById(1l)).thenReturn(Optional.of(dbZone));
+
+    Optional<Zone> zoneOptional = zoneRepository.findById(zoneId);
+    var result = zoneOptional.get();
+
+    assertThat(result).isInstanceOf(Zone.class);
+    assertThat(result.getName()).isEqualTo("Stubbed Zone");
+    assertThat(result.getId()).isEqualTo(zoneId);
+    assertThat(result).hasFieldOrProperty("Events");
+    assertThat(result).hasFieldOrProperty("Coordinate");
+
+  }
+
+  @Test
+  @DisplayName("Calling findZoneById - with invalid id should return empty Optional")
+  void callingFindZoneById_withInvalidData_shouldReturnZone() {
+    // Mockito.when(zoneRepository.findById(99l)).thenReturn(Optional.empty());
+
+    Optional<Zone> zoneOptional = zoneRepository.findById(1l);
+
+    assertThat(zoneOptional).isInstanceOf(Optional.class);
+    assertThat(zoneOptional.isEmpty()).isTrue();
 
   }
 
