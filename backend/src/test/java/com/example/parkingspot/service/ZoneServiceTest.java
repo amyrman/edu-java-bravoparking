@@ -1,5 +1,6 @@
 package com.example.parkingspot.service;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import com.example.parkingspot.repository.ZoneRepository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,10 +73,44 @@ public class ZoneServiceTest {
 
   }
 
+  @Test
+  @DisplayName("Calling getAllZones - should return a List of Zone")
+  void callingGetAllZones_shouldReturnListOfZone() {
+    List<Zone> dbList = stubZoneList();
+    Mockito.when(zoneRepository.findAll()).thenReturn(dbList);
+
+    List<Zone> result = zoneService.getAllZones();
+
+    assertThat(result).hasSize(2);
+    assertThat(result.get(0)).isInstanceOf(Zone.class);
+    assertThat(result.get(0)).hasFieldOrProperty("id");
+    assertThat(result.get(0)).hasFieldOrProperty("name");
+    assertThat(result.get(0)).hasFieldOrProperty("coordinate");
+    assertThat(result.get(0)).hasFieldOrProperty("events");
+
+    assertThat(result.get(1)).isInstanceOf(Zone.class);
+    assertThat(result.get(1)).hasFieldOrProperty("id");
+    assertThat(result.get(1)).hasFieldOrProperty("name");
+    assertThat(result.get(1)).hasFieldOrProperty("coordinate");
+    assertThat(result.get(1)).hasFieldOrProperty("events");
+  }
+
   Zone stubOneZone() {
     Zone zone = new Zone();
     zone.setId(1l);
     zone.setName("Stubbed Zone");
     return zone;
+  }
+
+  List<Zone> stubZoneList() {
+    Zone z1 = new Zone();
+    z1.setName("Stubbed Zone 1");
+    z1.setId(1l);
+
+    Zone z2 = new Zone();
+    z2.setName("Stubbed Zone 2");
+    z2.setId(2l);
+
+    return Lists.newArrayList(z1, z2);
   }
 }
