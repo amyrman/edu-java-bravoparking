@@ -2,6 +2,7 @@ package com.example.parkingspot.controller;
 
 import java.util.List;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -37,10 +38,14 @@ public class PersonControllerMVCTest {
   @Test
   @DisplayName("Endpoint getPersons - should return 200 OK and Person array in JSON")
   void callingEndpointGetPersons_shouldReturnJsonAnd200OK() throws Exception {
+    var dbList = stubPersonList();
+
+    Mockito.when(personService.getAllPersons()).thenReturn(dbList);
+
     mockMvc.perform(MockMvcRequestBuilders.get("/api/persons"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.content().json("[]"));
+        .andExpect(MockMvcResultMatchers.content().json("[{id:1, firstName: Stub}, {id:99, lastName: Afterlife}]"));
   }
 
   @Test
@@ -132,6 +137,22 @@ public class PersonControllerMVCTest {
     person.setUserId("410459b5-8c67-4d5f-a653-625726722ec3");
 
     return person;
+  }
+
+  private List<Person> stubPersonList() {
+    Person p1 = new Person();
+    p1.setFirstName("Stub");
+    p1.setLastName("Stubsson");
+    p1.setId(1);
+    p1.setUserId("410459b5-8c67-4d5f-a653-625726722ec4");
+
+    Person p2 = new Person();
+    p2.setFirstName("Pearl");
+    p2.setLastName("Afterlife");
+    p2.setId(99);
+    p2.setUserId("410459b5-8c67-4d5f-a653-625726722ec4");
+
+    return Lists.newArrayList(p1, p2);
   }
 
 }
