@@ -15,11 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.parkingspot.entity.Car;
 import com.example.parkingspot.entity.Event;
-import com.example.parkingspot.entity.Person;
-import com.example.parkingspot.repository.CarRepository;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.EventService;
-import com.example.parkingspot.service.PersonService;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +30,6 @@ public class CarControllerMVCTest {
 
     @MockBean
     CarService carService;
-
-    @MockBean
-    CarRepository carRepository;
 
     @Autowired
     MockMvc mockMvc;
