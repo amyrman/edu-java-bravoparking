@@ -19,6 +19,7 @@ public class Person {
   private String firstName;
   private String lastName;
   private String email;
+
   @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Car> cars;
 

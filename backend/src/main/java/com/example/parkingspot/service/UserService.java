@@ -8,7 +8,7 @@ import com.example.parkingspot.repository.PersonRepository;
 @Service
 public class UserService {
 
-private PersonRepository personrepo;
+private final PersonRepository personrepo;
 
   public UserService(PersonRepository personrepo) {
     this.personrepo = personrepo;
