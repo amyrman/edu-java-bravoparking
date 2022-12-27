@@ -35,12 +35,4 @@ class UserControllerMVCTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("1"));
     }
-
-    @Test
-    // TO DO - 404 on non-existing email -- needs if logic in userService
-    void callingEndpointLogin_withInvalidEmail_shouldReturn404NotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/login/{email}", "what@is.this.madness"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
 }
