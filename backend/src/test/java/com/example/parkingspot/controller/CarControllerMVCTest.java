@@ -15,11 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.parkingspot.entity.Car;
 import com.example.parkingspot.entity.Event;
-import com.example.parkingspot.entity.Person;
-import com.example.parkingspot.repository.CarRepository;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.EventService;
-import com.example.parkingspot.service.PersonService;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,15 +31,12 @@ public class CarControllerMVCTest {
     @MockBean
     CarService carService;
 
-    @MockBean
-    CarRepository carRepository;
-
     @Autowired
     MockMvc mockMvc;
 
 
     @Test
-    void callingEndpointGetCarsShouldReturn200OK() throws Exception {
+    void getCarsShouldReturn200OK() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/cars"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -88,23 +82,23 @@ public class CarControllerMVCTest {
     @Test
     void addNewCarShouldReturn201CreatedAndCreatedCar() throws Exception {
 
-        Car car = new Car();
-        car.setId(99L);
-        car.setRegistration("LMA714");
+        Car car = mockOneCar();
+        //car.setId(99L);
+        //car.setRegistration("LMA714");
 
         Mockito.when(carService.addNewCar(ArgumentMatchers.any())).thenReturn(car);
 
         RequestBuilder request = MockMvcRequestBuilders
             .post("/api/cars")
             .accept(MediaType.APPLICATION_JSON)
-            .content("{\"id\":99, \"registration\":\"LMA714\"}")
+            .content("{\"id\":1, \"registration\":\"LMA714\"}")
             .contentType(MediaType.APPLICATION_JSON);
         
             
         mockMvc.perform(request)
             .andExpect(MockMvcResultMatchers.status().isCreated())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.content().json("{\"id\":99, \"registration\":\"LMA714\"}"));
+            .andExpect(MockMvcResultMatchers.content().json("{\"id\":1, \"registration\":\"LMA714\"}"));
         
     }
 
