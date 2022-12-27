@@ -1,5 +1,7 @@
 package com.example.parkingspot.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.example.parkingspot.entity.Car;
+import com.example.parkingspot.entity.Event;
 import com.example.parkingspot.entity.Zone;
 import com.example.parkingspot.service.EventService;
 import com.example.parkingspot.service.ZoneService;
@@ -95,6 +99,24 @@ public class ZoneControllerMvcTest {
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
+  @Test
+  @DisplayName("Endpoint getEventsByZoneIdAndDate - with valid data should return 200 Ok and data as JSON")
+  void callingGetAllEventsByZoneIdAndDate_withValidData_shouldReturn200OkAndJsonData() throws Exception {
+    Event dbEvent = mockOneEvent();
+    List<Event> dbEvents = Lists.newArrayList(Lists.newArrayList(dbEvent));
+    RequestBuilder request = MockMvcRequestBuilders.get("/api/zones/{id}/events/{date}", 1l,
+        LocalDate.now().toString());
+
+    Mockito.when(eventService.fetchAllEventsByDateAndZoneId(1l, LocalDate.now()))
+        .thenReturn(dbEvents);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.content().json("[{\"active\":true, \"id\":1}]"));
+
+  }
+
   List<Zone> zonesSetup() {
     Zone z1 = new Zone();
     z1.setId(1L);
@@ -117,5 +139,18 @@ public class ZoneControllerMvcTest {
     zone.setId(1L);
     zone.setName("Mocked zone");
     return zone;
+  }
+
+  Event mockOneEvent() {
+    Event e1 = new Event();
+    e1.setId(1L);
+    e1.setActive(true);
+    e1.setStart(LocalDateTime.now());
+    e1.setStop(LocalDateTime.now());
+    Car car = new Car();
+    car.setId(1L);
+    car.setRegistrationNr("ABC123");
+    e1.setCar(car);
+    return e1;
   }
 }
