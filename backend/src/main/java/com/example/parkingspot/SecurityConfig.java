@@ -27,7 +27,8 @@ public class SecurityConfig {
             "/api/persons/**",
             "/api/cars/**",
             "/api/zones/**",
-            "/api/events/**")
+            "/api/events/**",
+            "/api/login/**")
         .authenticated()
         .requestMatchers(HttpMethod.POST,
             "/api/persons/**",

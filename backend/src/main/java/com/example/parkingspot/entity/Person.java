@@ -18,6 +18,8 @@ public class Person {
   private String userId;
   private String firstName;
   private String lastName;
+  private String email;
+
   @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Car> cars;
 
@@ -61,5 +63,14 @@ public class Person {
   public void setUserId(String userId) {
     this.userId = userId;
   }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  
 
 }

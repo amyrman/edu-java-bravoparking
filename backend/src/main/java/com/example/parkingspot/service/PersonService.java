@@ -31,11 +31,13 @@ public class PersonService {
   }
 
   public Person registerNewPerson(Person person) {
-    Optional<Person> existingPerson = personRepository.findByFirstNameAndLastName(person.getFirstName(),
-        person.getLastName());
-    if (existingPerson.isPresent()) {
-      return person;
-    }
+    // . EDIT THIS CHECK FOR OTHER UNIQUE PROP -
+    // Optional<Person> existingPerson =
+    // personRepository.findByFirstNameAndLastName(person.getFirstName(),
+    // person.getLastName());
+    // if (existingPerson.isPresent()) {
+    // return person;
+    // }
 
     person.setUserId(UUID.randomUUID().toString());
 
