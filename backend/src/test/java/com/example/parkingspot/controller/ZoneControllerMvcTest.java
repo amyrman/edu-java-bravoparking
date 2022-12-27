@@ -9,6 +9,7 @@ import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 import static org.geolatte.geom.builder.DSL.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,6 +53,21 @@ public class ZoneControllerMvcTest {
             "[{\"id\":2, \"name\":\"Parking location 2\"}, {\"id\":1, \"name\":\"Parking location 1\"}]"));
   }
 
+  @Test
+  @DisplayName("Endpoint addNewParkingZone - should return 201 Created and added Zone in JSON")
+  void callingAddNewParkingZone_withValidData_shouldReturn201OkAndJsonData() throws Exception {
+    Zone dbZone = mockOneZone();
+
+    Mockito.when(zoneService.registerNewParkingZone(ArgumentMatchers.any())).thenReturn(dbZone);
+    RequestBuilder request = MockMvcRequestBuilders.post("/api/zones").accept(MediaType.APPLICATION_JSON)
+        .content("{\"name\":\"Mocked zone\"}").contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.content().json("{\"id\":1, \"name\":\"Mocked zone\"}"));
+  }
+
   List<Zone> zonesSetup() {
     Zone z1 = new Zone();
     z1.setId(1L);
@@ -67,5 +83,12 @@ public class ZoneControllerMvcTest {
 
     List<Zone> zones = Lists.newArrayList(z1, z2);
     return zones;
+  }
+
+  Zone mockOneZone() {
+    Zone zone = new Zone();
+    zone.setId(1L);
+    zone.setName("Mocked zone");
+    return zone;
   }
 }
