@@ -56,17 +56,15 @@ const LoginForm = () => {
         .catch((err) => console.log(err));
 
       // if token get userid from backend by email
-      if (res.data.access_token === localStorage.getItem('token')) {
+      if (res.data.access_token) {
         axios
           .get(`http://localhost:8080/api/login/${loginPayload.username}`)
           .then((response) => {
             // get userId and personId from response
-            const userId = response.data.userId;
-            const personId = response.data.id;
+            const userId = response.data;
 
             // set userId and personId to local
             localStorage.setItem('userId', userId);
-            localStorage.setItem('personId', personId);
           })
           .catch((err) => {
             console.log(err);

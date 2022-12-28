@@ -18,7 +18,6 @@ import com.example.parkingspot.entity.Person;
 import com.example.parkingspot.service.CarService;
 import com.example.parkingspot.service.PersonService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class PersonController {
@@ -48,10 +47,10 @@ public class PersonController {
   public ResponseEntity<Person> addNewPerson(@RequestBody Person person) {
 
     Person newUser = personService.registerNewPerson(person);
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId())
-        .toUri();
 
-    if (newUser != null) {
+    if (newUser.getId() > 0) {
+      URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId())
+          .toUri();
       return ResponseEntity.created(location).body(newUser);
     }
 

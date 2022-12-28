@@ -17,7 +17,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
         .csrf().disable()
-        // .cors().disable()
+        .cors().disable()
         .formLogin().disable()
         .logout().disable()
         .sessionManagement().disable()
@@ -27,7 +27,8 @@ public class SecurityConfig {
             "/api/persons/**",
             "/api/cars/**",
             "/api/zones/**",
-            "/api/events/**")
+            "/api/events/**",
+            "/api/login/**")
         .authenticated()
         .requestMatchers(HttpMethod.POST,
             "/api/persons/**",

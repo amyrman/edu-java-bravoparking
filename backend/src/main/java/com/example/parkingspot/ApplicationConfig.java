@@ -41,48 +41,56 @@ public class ApplicationConfig {
       p1.setFirstName("Jessica");
       p1.setLastName("Jones");
       p1.setUserId(UUID.randomUUID().toString());
+      p1.setEmail("jessicajones@email.nu");
       personRepository.save(p1);
 
       Person p2 = new Person();
       p2.setFirstName("Harley");
       p2.setLastName("Quinn");
       p2.setUserId(UUID.randomUUID().toString());
+      p2.setEmail("harleyquinn@email.nu");
       personRepository.save(p2);
 
       Person p3 = new Person();
       p3.setFirstName("James");
       p3.setLastName("West");
       p3.setUserId(UUID.randomUUID().toString());
+      p3.setEmail("jameswest@email.nu");
       personRepository.save(p3);
 
       Person p4 = new Person();
       p4.setFirstName("Keanu");
       p4.setLastName("Reaves");
       p4.setUserId(UUID.randomUUID().toString());
+      p4.setEmail("keanureaves@email.nu");
       personRepository.save(p4);
 
       Person p5 = new Person();
       p5.setFirstName("Gwen");
       p5.setLastName("Stacey");
       p5.setUserId(UUID.randomUUID().toString());
+      p5.setEmail("gwenstacey@email.nu");
       personRepository.save(p5);
 
       Person p6 = new Person();
       p6.setFirstName("Kamala");
       p6.setLastName("Khan");
       p6.setUserId(UUID.randomUUID().toString());
+      p6.setEmail("kamalakhan@email.nu");
       personRepository.save(p6);
 
       Person p7 = new Person();
       p7.setFirstName("Neo");
       p7.setLastName("Andersson");
       p7.setUserId(UUID.randomUUID().toString());
+      p7.setEmail("neoandersson@email.nu");
       personRepository.save(p7);
 
       Person p8 = new Person();
       p8.setFirstName("Tony");
       p8.setLastName("Stark");
       p8.setUserId(UUID.randomUUID().toString());
+      p8.setEmail("tonystark@email.nu");
       personRepository.save(p8);
 
       // Car inserts
