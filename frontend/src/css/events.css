@@ -1,0 +1,17 @@
+.startEvent {
+	margin: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+ul > li {
+	margin: 0.5rem;
+	max-width: 400px;
+}
+
+.active {
+	background-color: lightgreen;
+}
+
+.finished {
+	background-color: lightgrey;
+}
