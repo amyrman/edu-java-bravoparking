@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.parkingspot.entity.Event;
+import com.example.parkingspot.service.AuthService;
 import com.example.parkingspot.service.EventService;
 
 @RestController
@@ -23,9 +24,11 @@ import com.example.parkingspot.service.EventService;
 public class EventController {
 
   private EventService eventService;
+  private AuthService authService;
 
-  public EventController(EventService eventService) {
+  public EventController(EventService eventService, AuthService authService) {
     this.eventService = eventService;
+    this.authService = authService;
   }
 
   // @GetMapping
@@ -33,14 +36,11 @@ public class EventController {
   // return eventService.fetchAllEvents();
   // }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Event> getEventById(@PathVariable("id") Long eventId) {
-    Event foundEvent = eventService.fetchEventById(eventId);
+  @GetMapping()
+  public ResponseEntity <List<Event>> getEventById() {
 
-    if (foundEvent != null) {
-      return ResponseEntity.ok().body(foundEvent);
-    }
-    return ResponseEntity.notFound().build();
+    var res = eventService.fetchEventByUserId(authService.getAuth());
+    return ResponseEntity.ok().body(res);
   }
 
   @GetMapping("/status")
@@ -69,6 +69,8 @@ public class EventController {
   @GetMapping("/person")
   public ResponseEntity<List<Event>> getEventsByPersonIdAndStats(@RequestParam("id") String personId,
       @RequestParam("active") Boolean status) {
+    // THIS IS DEPENDENT OF PERSONID and NOT userId
+    // NEED REFACTOR TO WORK WITH CURRENT FRONTEND
     List<Event> eventsList = eventService.fetchEventsByPersonIdAndStatus(personId, status);
 
     if (eventsList != null) {
