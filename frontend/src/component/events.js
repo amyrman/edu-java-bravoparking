@@ -4,7 +4,7 @@ import axios from 'axios';
 const handleGetEvents = () => {
   const userId = localStorage.getItem('userId');
   axios
-    .get(`http://localhost:8080/api/events/${userId}`)
+    .get(`http://localhost:8080/api/events/person?id=${userId}&active=true`)
     .then((response) => {
       console.log(response);
     })
@@ -17,7 +17,7 @@ function Events() {
   return (
     <div>
       <h1>EVENTS PAGE</h1>
-      <button onClick={handleGetEvents}>CONSOLE LOG EVENTS</button>
+      <button>CONSOLE LOG EVENTS</button>
     </div>
   );
 }

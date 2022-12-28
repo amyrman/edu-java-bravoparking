@@ -69,6 +69,8 @@ public class EventController {
   @GetMapping("/person")
   public ResponseEntity<List<Event>> getEventsByPersonIdAndStats(@RequestParam("id") String personId,
       @RequestParam("active") Boolean status) {
+    // THIS IS DEPENDENT OF PERSONID and NOT userId
+    // NEED REFACTOR TO WORK WITH CURRENT FRONTEND
     List<Event> eventsList = eventService.fetchEventsByPersonIdAndStatus(personId, status);
 
     if (eventsList != null) {
