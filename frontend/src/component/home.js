@@ -12,8 +12,6 @@ function Home() {
 	const fetchUser = () => {
 		checkJwtExpired();
 		setAuthToken(localStorage.getItem("token"));
-		//const userid = localStorage.getItem("userId");
-		//console.log(userid);
 		axios
 			.get(
 				`http://localhost:8080/api/persons/${localStorage.getItem(
