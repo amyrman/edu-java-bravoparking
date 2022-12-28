@@ -12,16 +12,14 @@ function Events() {
 		return (
 			<div className="startEvent">
 				<h3>Start new parking</h3>
-				<form>
-					<label for="zones" id="zones"></label>
+				<form onSubmit={handleStartParking}>
+					<label htmlfor="zones" id="zones"></label>
 					<select id="zones" name="zones">
 						{zones.map((zone) => (
 							<option key={zone.id}>{zone.name}</option>
 						))}
 					</select>
-				</form>
-				<form>
-					<label for="cars" id="cars"></label>
+					<label htmlfor="cars" id="cars"></label>
 					<select id="cars" name="cars">
 						{cars.map((car) => (
 							<option
@@ -33,8 +31,14 @@ function Events() {
 						))}
 					</select>
 				</form>
+				<button type="submit" value="StartPark">
+					Start
+				</button>
 			</div>
 		);
+	};
+	const handleStartParking = async (event) => {
+		event.preventDefault();
 	};
 
 	const renderEventsList = (events) => {
