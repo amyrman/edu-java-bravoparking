@@ -48,9 +48,6 @@ const LoginForm = () => {
           //set token to axios common header
           setAuthToken(token);
 
-          //redirect user to home page
-          window.location.href = '/';
-
           return response;
         })
         .catch((err) => console.log(err));
@@ -65,6 +62,9 @@ const LoginForm = () => {
 
             // set userId and personId to local
             localStorage.setItem('userId', userId);
+
+            //redirect user to home page
+            window.location.href = '/';
           })
           .catch((err) => {
             console.log(err);
