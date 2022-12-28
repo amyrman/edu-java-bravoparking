@@ -65,6 +65,10 @@ public class EventService {
     return null;
   }
 
+  public List<Event> fetchEventByUserId(String userId) {
+    return eventRepository.findByPersonId(userId);
+  }
+
   public Event setNewEventStopTime(Long eventId, LocalDateTime stopTime) {
     Optional<Event> event = eventRepository.findById(eventId);
     // METHOD with logic to NOT allow user to set stop time before current stop time

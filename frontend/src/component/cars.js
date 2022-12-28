@@ -7,9 +7,31 @@ import '../css/cars.css';
 
 function Cars() {
   const [cars, setCars] = useState();
+  const [registration, setRegistration] = useState('');
+  const userId = localStorage.getItem('userId');
+
+  const handleAddCar = (event) => {
+    event.preventDefault();
+    setCars([...cars, { registration: registration }]);
+
+    axios({
+      method: 'post',
+      url: `http://localhost:8080/api/cars`,
+      data: {
+        registration: registration,
+        person: {
+          userId: userId,
+        },
+      },
+    });
+    setRegistration('');
+  };
+
+  const handleInputChange = (e) => {
+    setRegistration(e.target.value);
+  };
 
   const handleGetCars = () => {
-    const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
     checkJwtExpired();
@@ -25,6 +47,20 @@ function Cars() {
       });
   };
 
+  const renderCarsList = () => {
+    return cars ? (
+      <ul>
+        {cars.map((car) => (
+          <li key={car.registration} className='cars_list_item'>
+            {car.registration}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div></div>
+    );
+  };
+
   useEffect(() => {
     handleGetCars();
   }, []);
@@ -32,19 +68,18 @@ function Cars() {
   return (
     <div>
       <h1>CARS PAGE</h1>
-      {cars ? (
-        <div>
-          <ul>
-            {cars.map((car) => (
-              <li key={car.id} className='cars_list_item'>
-                {car.registration}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div></div>
-      )}
+      {renderCarsList()}
+
+      <form onSubmit={handleAddCar}>
+        <input
+          type='text'
+          name='registration'
+          placeholder='Car registration'
+          onChange={handleInputChange}
+          value={registration}
+        />
+        <input type='submit' value='ADD CAR' />
+      </form>
     </div>
   );
 }
