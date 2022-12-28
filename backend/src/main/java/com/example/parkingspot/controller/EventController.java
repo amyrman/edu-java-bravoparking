@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,15 +19,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.parkingspot.entity.Event;
 import com.example.parkingspot.service.EventService;
+import com.example.parkingspot.service.UserService;
 
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
 
   private EventService eventService;
+  private UserService userService;
 
-  public EventController(EventService eventService) {
+  public EventController(EventService eventService, UserService userService) {
     this.eventService = eventService;
+    this.userService = userService;
   }
 
   // @GetMapping
@@ -33,14 +38,14 @@ public class EventController {
   // return eventService.fetchAllEvents();
   // }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Event> getEventById(@PathVariable("id") Long eventId) {
-    Event foundEvent = eventService.fetchEventById(eventId);
+  @GetMapping()
+  public ResponseEntity <List<Event>> getEventById() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String username = auth.getName();
+    var userId = userService.getUserId(username);
+    var foundEvent = eventService.fetchEventByUserId(userId);
 
-    if (foundEvent != null) {
-      return ResponseEntity.ok().body(foundEvent);
-    }
-    return ResponseEntity.notFound().build();
+    return ResponseEntity.ok().body(foundEvent);
   }
 
   @GetMapping("/status")
