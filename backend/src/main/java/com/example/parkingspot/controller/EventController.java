@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.parkingspot.entity.Event;
+import com.example.parkingspot.service.AuthService;
 import com.example.parkingspot.service.EventService;
-import com.example.parkingspot.service.UserService;
 
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
 
   private EventService eventService;
-  private UserService userService;
+  private AuthService authService;
 
-  public EventController(EventService eventService, UserService userService) {
+  public EventController(EventService eventService, AuthService authService) {
     this.eventService = eventService;
-    this.userService = userService;
+    this.authService = authService;
   }
 
   // @GetMapping
@@ -41,8 +39,8 @@ public class EventController {
   @GetMapping()
   public ResponseEntity <List<Event>> getEventById() {
 
-
-    return ResponseEntity.ok().body(foundEvent);
+    var res = eventService.fetchEventByUserId(authService.getAuth());
+    return ResponseEntity.ok().body(res);
   }
 
   @GetMapping("/status")

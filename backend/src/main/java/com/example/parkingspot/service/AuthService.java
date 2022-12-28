@@ -8,18 +8,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
   
-  private EventService eventService;
   private UserService userService;
 
-  public AuthService(EventService eventService, UserService userService) {
-    this.eventService = eventService;
+  public AuthService(UserService userService) {
     this.userService = userService;
   }
 
-  public void getAuth() {
+  public String getAuth() {
   Authentication auth = SecurityContextHolder.getContext().getAuthentication();
   String username = auth.getName();
-  var userId = userService.getUserId(username);
-  var foundEvent = eventService.fetchEventByUserId(userId);
+  return userService.getUserId(username);
   }
 }
