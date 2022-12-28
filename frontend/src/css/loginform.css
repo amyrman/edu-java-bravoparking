@@ -1,0 +1,86 @@
+
+.container {
+    background-color: rgba(192, 193, 196, 0.842);
+    height: 30em;
+    width: 30em;
+    position: relative;
+    border-radius:1em;
+    box-shadow: 0 0.188em 1.550em rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.login-h1{
+    font-size: 25px;
+}
+
+input {
+    border: none;
+    background-color: rgb(235, 235, 235);
+    height: 4em;
+    width: 80%;
+    border-radius: 0.25em;
+    text-align: center;
+    padding: 2em;
+}
+
+input:focus{
+    outline-color: rgb(102, 31, 26);
+}
+
+input::placeholder{
+    font-size: 1.5em;
+}
+
+.login-btn {
+    width: 40%;
+    height: 3em;
+    background-color:  rgb(102, 31, 26);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    border-radius: 0.25em;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.login-btn:hover {transform: scale(1.25);}
+
+.register-btn{
+    width: 40%;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.register-btn:hover{
+    transform: scale(1.25);
+    text-decoration: underline;
+}
+
+.hide{
+   position: absolute;
+   transform: scale(0);
+}
+
+.login-popup{
+    position: absolute;
+    height: 30em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25em;
+    background-color:  rgb(102, 31, 26);
+    color: white;
+    bottom: 0;
+    transform: scale(1);
+    transform: 1.5s;
+}

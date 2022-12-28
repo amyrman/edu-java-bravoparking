@@ -1,0 +1,5 @@
+.cars_list_item {
+  background-image: url('/public/images/car_placeholder.png');
+  background-repeat: no-repeat;
+  min-height: 500px;
+}

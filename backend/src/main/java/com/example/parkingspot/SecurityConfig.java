@@ -12,44 +12,46 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-  
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
-              .csrf().disable()
-              .cors().disable()
-              .formLogin().disable()
-              .logout().disable()
-              .sessionManagement().disable()
-              .httpBasic().disable()
-              .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET,
-                  "/api/persons/**",
-                  "/api/cars/**",
-                  "/api/zones/**",
-                  "/api/events/**",
-                  "/api/login/**").authenticated()
-                .requestMatchers(HttpMethod.POST,
-                  "/api/persons/**",
-                  "/api/cars/**",
-                  "/api/zones/**",
-                  "/api/events/**").authenticated()
-                .requestMatchers(HttpMethod.PUT,
-                  "/api/cars/**",
-                  "/api/events/**").authenticated()
-                .anyRequest().denyAll()
-              .and()
-              .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-              .build();
+        .csrf().disable()
+        .cors().disable()
+        .formLogin().disable()
+        .logout().disable()
+        .sessionManagement().disable()
+        .httpBasic().disable()
+        .authorizeHttpRequests()
+        .requestMatchers(HttpMethod.GET,
+            "/api/persons/**",
+            "/api/cars/**",
+            "/api/zones/**",
+            "/api/events/**",
+            "/api/login/**")
+        .authenticated()
+        .requestMatchers(HttpMethod.POST,
+            "/api/persons/**",
+            "/api/cars/**",
+            "/api/zones/**",
+            "/api/events/**")
+        .authenticated()
+        .requestMatchers(HttpMethod.PUT,
+            "/api/cars/**",
+            "/api/events/**")
+        .authenticated()
+        .anyRequest().denyAll()
+        .and()
+        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+        .build();
   }
 
   @Bean
   public JwtDecoder jwtDecoder() {
     return NimbusJwtDecoder
-      .withJwkSetUri("https://fungover.org/auth/.well-known/jwks.json")
-      .jwsAlgorithm(SignatureAlgorithm.ES256)
-      .build();
+        .withJwkSetUri("https://fungover.org/auth/.well-known/jwks.json")
+        .jwsAlgorithm(SignatureAlgorithm.ES256)
+        .build();
   }
 
 }
