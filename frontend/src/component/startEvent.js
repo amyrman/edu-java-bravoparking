@@ -46,7 +46,9 @@ function StartEvent() {
 			</div>
 		);
 	};
-
+	//
+	// This handles the post to backend to create new event
+	//
 	const handleStartParking = async (event) => {
 		event.preventDefault();
 		//console.log(startCar);
@@ -55,15 +57,19 @@ function StartEvent() {
 			zone: startZone,
 			car: startCar,
 		};
-		const res = await axios
-    // THIS IS WORK IN PROGRESS
-/* 			.post("http://localhost:8080/api/events", eventPayload)
-			.then((response) => {
+
+		// THIS IS WORK IN PROGRESS
+		// POST
+
+		/* const res = await axios;
+					.post("http://localhost:8080/api/events", eventPayload)
+			    .then((response) => {
 				console.log(response);
-				return response; */
-			});
+				return response;
+		}); */
 	};
 
+	// Get all zones
 	async function handleGetZones() {
 		const res = await axios
 			.get(`http://localhost:8080/api/zones`)
@@ -75,6 +81,7 @@ function StartEvent() {
 		setStartZone(res.data[0].name);
 	}
 
+	// Get all cars for user
 	async function handleGetCars() {
 		const userId = localStorage.getItem("userId");
 		const res = await axios
