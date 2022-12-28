@@ -40,10 +40,7 @@ public class EventController {
 
   @GetMapping()
   public ResponseEntity <List<Event>> getEventById() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String username = auth.getName();
-    var userId = userService.getUserId(username);
-    var foundEvent = eventService.fetchEventByUserId(userId);
+
 
     return ResponseEntity.ok().body(foundEvent);
   }
