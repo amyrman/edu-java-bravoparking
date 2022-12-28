@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+    parking-backend:
+        image: teambravodocker/bravo-backend
+        container_name: bravo-parking-backend
+        pull_policy: missing
+        ports:
+            - "8080:8080"
+        environment:
+            DB_USERNAME: root
+            DB_PASSWORD: secretpw
+            DB_HOSTNAME: mysql2
+        depends_on:
+            - mysql2
+    parking-front-end:
+        image: teambravodocker/bravo-frontend
+        container_name: bravo-parking-frontend
+        pull_policy: missing
+        ports:
+            - "3000:3000"
+        # links:
+        #   - parking-back-end
+    mysql2:
+        image: mysql:latest
+        environment:
+            MYSQL_DATABASE: test
+            MYSQL_ROOT_PASSWORD: secretpw
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+        restart: always

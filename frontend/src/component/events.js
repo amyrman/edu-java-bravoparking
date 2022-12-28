@@ -2,44 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "../css/events.css";
+import StartEvent from "./startEvent";
 
 function Events() {
 	const [events, setEvents] = useState([]);
-	const [zones, setZones] = useState([]);
-	const [cars, setCars] = useState([]);
-
-	const renderStartNewPark = (zones, cars) => {
-		return (
-			<div className="startEvent">
-				<h3>Start new parking</h3>
-				<form onSubmit={handleStartParking}>
-					<label htmlfor="zones" id="zones"></label>
-					<select id="zones" name="zones">
-						{zones.map((zone) => (
-							<option key={zone.id}>{zone.name}</option>
-						))}
-					</select>
-					<label htmlfor="cars" id="cars"></label>
-					<select id="cars" name="cars">
-						{cars.map((car) => (
-							<option
-								key={car.registration}
-								value={car.registration}
-							>
-								{car.registration}
-							</option>
-						))}
-					</select>
-				</form>
-				<button type="submit" value="StartPark">
-					Start
-				</button>
-			</div>
-		);
-	};
-	const handleStartParking = async (event) => {
-		event.preventDefault();
-	};
 
 	const renderEventsList = (events) => {
 		return (
@@ -77,39 +43,14 @@ function Events() {
 		setEvents(res.data);
 	}
 
-	async function handleGetZones() {
-		const res = await axios
-			.get(`http://localhost:8080/api/zones`)
-			.then((response) => {
-				return response;
-			})
-			.catch((error) => console.log(error));
-		setZones(res.data);
-	}
-
-	async function handleGetCars() {
-		const userId = localStorage.getItem("userId");
-		const res = await axios
-			.get(`http://localhost:8080/api/persons/${userId}/cars`)
-			.then((response) => {
-				return response;
-			})
-			.catch((err) => console.log(err));
-
-		setCars(res.data);
-		//console.log(res.data);
-	}
-
 	useEffect(() => {
 		handleGetEvents();
-		handleGetZones();
-		handleGetCars();
 	}, []);
 
 	return (
 		<div>
 			<h1>EVENTS PAGE</h1>
-			{renderStartNewPark(zones, cars)}
+			<StartEvent />
 			<h3>History</h3>
 			{renderEventsList(events)}
 		</div>
