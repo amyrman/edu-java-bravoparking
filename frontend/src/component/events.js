@@ -14,8 +14,6 @@ function Events() {
     let currentStopTime = event.stop.replace(/\s/g, 'T').concat('Z');
     let currentStopMilli = new Date(currentStopTime);
     setNewStopTime(Date.parse(currentStopMilli.toUTCString()));
-    console.log(currentStopTime);
-    console.log(Date.parse(currentStopMilli.toUTCString()));
   };
 
   const handleEnableUpdate = (event) => {
@@ -33,12 +31,37 @@ function Events() {
     );
   };
 
-  const renderUpdateTime = (event) => {
+  // TODO
+  // CONNECT TO DB, USE PUT
+  const handlePutUpdate = () => {
+    try {
+      axios
+        .put(
+          `http://localhost:8080/api/events/${
+            currentEvent.id
+          }?stopTime=${new Date(newStopTime).toISOString().replace('Z', '')}`
+        )
+        .then((response) => {
+          console.log(response);
+
+          handleGetEvents();
+          setcurrentEvent();
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleStopEvent = () => {};
+
+  const renderUpdateTime = () => {
     return (
       <div>
         <button onClick={handleAddMinutes}>+ 15min</button>
         <p>{new Date(newStopTime).toUTCString()}</p>
-        <button>Uppdatera</button>
+        <button onClick={handlePutUpdate}>Uppdatera</button>
+        <button>Avsluta</button>
       </div>
     );
   };
